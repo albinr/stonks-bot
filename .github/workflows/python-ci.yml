@@ -36,7 +36,6 @@ jobs:
         run: |
           pip install pytest
           PYTHONPATH=./ pytest
-          pytest
 
       - name: Create dummy .env file
         working-directory: backend
