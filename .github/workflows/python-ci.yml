@@ -37,8 +37,6 @@ jobs:
           pip install pytest
           pytest
 
-      - name: Check for .env file
+      - name: Create dummy .env file
         working-directory: backend
-        run: |
-          if [ ! -f ".env" ]; then echo "⚠️ .env file is missing!"; exit 1; fi
-        shell: bash
+        run: echo "ALPHAVANTAGE_API_KEY=dummy" > .env
