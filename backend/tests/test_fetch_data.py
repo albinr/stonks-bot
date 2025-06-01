@@ -26,4 +26,5 @@ def test_fetch_daily_returns_dataframe(mock_get):
 
     assert isinstance(df, pd.DataFrame)
     assert "Open" in df.columns
-    assert df.loc["2025-01-01", "Close"] == 105.0
+    assert float(df.loc["2025-01-01", "Close"]) == 105.0
+
