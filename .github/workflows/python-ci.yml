@@ -40,3 +40,17 @@ jobs:
       - name: Create dummy .env file
         working-directory: backend
         run: echo "ALPHAVANTAGE_API_KEY=dummy" > .env
+      
+      - name: Type check with mypy
+        working-directory: backend
+        run: |
+          pip install mypy
+          mypy app
+
+      - name: Run tests with coverage
+        working-directory: backend
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov=app --cov-report=term-missing
+
+
