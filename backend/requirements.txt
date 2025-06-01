@@ -1,0 +1,5 @@
+pandas
+requests
+python-dotenv
+flake8
+pytest
