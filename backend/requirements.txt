@@ -3,3 +3,5 @@ requests
 python-dotenv
 flake8
 pytest
+types-requests
+pandas-stubs
