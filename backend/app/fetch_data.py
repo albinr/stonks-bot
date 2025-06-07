@@ -1,3 +1,5 @@
+# backend/app/fetch_data.py
+
 import requests
 import pandas as pd
 import os
@@ -16,14 +18,15 @@ def fetch_daily(symbol: str, outputsize: str = "compact") -> pd.DataFrame:
         "outputsize": outputsize,
         "datatype": "json"
     }
-    print(f"Fetching {symbol} ({outputsize})...")
+    print(f"📡 Fetching {symbol} ({outputsize})...")
     response = requests.get(URL, params=params)
     data = response.json()
 
     if "Time Series (Daily)" not in data:
         raise Exception(f"Alpha Vantage Error: {data.get('Note') or data.get('Error Message') or data}")
+    
     df = pd.DataFrame.from_dict(data["Time Series (Daily)"], orient="index")
-    df = df.rename(columns = {
+    df = df.rename(columns={
         "1. open": "Open",
         "2. high": "High",
         "3. low": "Low",
@@ -39,8 +42,9 @@ def save_csv(df: pd.DataFrame, symbol: str):
     now = datetime.now().strftime("%Y%m%d_%H%M")
     path = f"data/{symbol.upper()}_{now}.csv"
     df.to_csv(path, index_label="Date")
-    print(f"Saved: {path}")
+    print(f"💾 Saved: {path}")
 
+# Optional CLI mode
 if __name__ == "__main__":
     symbol = input("Enter stock symbol (e.g. AAPL): ").strip().upper()
     outputsize = input("Output size (compact/full): ").strip() or "compact"
@@ -49,4 +53,4 @@ if __name__ == "__main__":
         df = fetch_daily(symbol, outputsize)
         save_csv(df, symbol)
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")
