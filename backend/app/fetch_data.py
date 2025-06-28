@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
+
+if not API_KEY:
+    raise EnvironmentError("ALPHAVANTAGE_API_KEY environment variable not set")
 URL = "https://www.alphavantage.co/query"
 
 def fetch_daily(symbol: str, outputsize: str = "compact") -> pd.DataFrame:
@@ -30,6 +33,7 @@ def fetch_daily(symbol: str, outputsize: str = "compact") -> pd.DataFrame:
         "4. close": "Close",
         "5. volume": "Volume"
     })
+    df = df.apply(pd.to_numeric)
     df.index = pd.to_datetime(df.index)
     df = df.sort_index()
     return df
